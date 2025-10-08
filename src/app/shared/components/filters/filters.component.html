@@ -1,0 +1,37 @@
+<div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg shadow">
+    <!-- Search box -->
+    <input 
+        type="text" 
+        class="border rounded-md px-3 py-2 flex-1 focus:ring focus:ring-blue-200"
+        [placeholder]="searchPlaceholder" 
+        [(ngModel)]="filters['search']"
+        (ngModelChange)="updateFilter('search', $event)" />
+
+    <!-- Dropdown filters -->
+    <ng-container *ngFor="let d of dropdowns">
+        <label class="text-gray-700 font-medium">
+            {{d.label}}
+        </label>
+
+        <select 
+            class="border rounded-md px-3 py-2" 
+            [(ngModel)]="filters[d.key]"
+            (ngModelChange)="updateFilter(d.key, $event)"
+        >
+            <option value="">All</option>
+            <option *ngFor="let opt of d.options" [value]="opt">
+                {{opt}}
+            </option>
+        </select>
+
+        <!-- Reset button -->
+        <div class="self-end">
+            <app-button
+                customColor="bg-gray-200 text-gray-800 hover:bg-gray-300"
+                (buttonClick)="resetFilters()"
+            >
+                Reset
+            </app-button>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,52 @@
+<div class="min-h-screen bg-gray-50">
+  <app-header
+    [pageTitle]="'Quizzes'"
+    [profile]="{ name: 'Teacher Profile', initials: 'TP' }"
+  ></app-header>
+  <div class="mx-auto w-full p-6 space-y-6">
+
+    <!-- Existing Quizzes -->
+    <div class="space-y-3">
+      <div
+        *ngFor="let quiz of quizzes"
+        (click)="openModal(quiz)"
+        class="p-4 border rounded-lg bg-white flex justify-between items-center shadow-sm hover:bg-blue-50 cursor-pointer transition"
+      >
+        <div>
+          <h3 class="font-semibold">Quiz {{ quiz.quizNo }}</h3>
+          <p class="text-sm text-gray-600">{{ quiz.course }}</p>
+          <p class="text-sm text-gray-500">
+            {{ quiz.questions.length }} Questions |
+            Due: {{ quiz.dueDate | date: 'mediumDate' }}
+          </p>
+          <p class="text-sm text-gray-600"> <span class="font-bold">Description:</span> {{ quiz.description }}</p>
+        </div>
+        <span
+          [class.text-green-600]="quiz.status === 'Active'"
+          [class.text-red-600]="quiz.status === 'Inactive'"
+          class="font-medium"
+        >
+          {{ quiz.status }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Add New Quiz -->
+    <div class="flex justify-center mt-8">
+      <button
+        class="bg-blue-900 hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded-md"
+        (click)="openModal()"
+      >
+        + Generate Quiz
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <app-create-quiz
+    *ngIf="showModal"
+    [quiz]="selectedQuiz"
+    (close)="closeModal()"
+    (save)="addOrUpdateQuiz($event)"
+  ></app-create-quiz>
+</div>

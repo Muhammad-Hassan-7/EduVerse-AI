@@ -1,0 +1,40 @@
+<div
+  class="bg-slate-900 text-white h-screen fixed top-0 flex flex-col transition-all duration-300"
+  [ngClass]="{ 'w-64': isOpen, 'w-20': !isOpen }"
+>
+  <div class="p-6 border-b border-slate-900 flex items-center justify-between">
+    <h1 class="text-xl font-bold text-gray-50" [class.hidden]="!isOpen">
+      EduHub
+    </h1>
+    <button (click)="toggle()" class="text-gray-300 hover:text-white">
+      <span class="text-2xl font-bold cursor-pointer">&#9776;</span>
+    </button>
+  </div>
+
+  <nav class="flex-1 py-4">
+    <ul class="space-y-2">
+      <li *ngFor="let item of menuItems">
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="bg-slate-700 text-white"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center px-6 py-3 text-gray-300 hover:bg-slate-700 hover:text-white transition-colors"
+        >
+          <i class="{{ item.icon }} mr-3 text-lg"></i>
+          <span [class.hidden]="!isOpen">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="p-4 border-t border-slate-900">
+    <app-button
+      customColor="bg-red-700 text-white"
+      [fullWidth]="true"
+      (buttonClick)="logout()"
+    >
+      <i class="fa-solid fa-right-from-bracket mr-2"></i>
+      <span *ngIf="isOpen">Logout</span>
+    </app-button>
+  </div>
+</div>
