@@ -14,4 +14,5 @@ export class StatCardComponent {
   @Input() icon!: string;
   @Input() iconBgClass: string = 'bg-blue-100';
   @Input() iconColorClass: string = 'text-blue-600';
+  @Input() bgColor: string = 'bg-white';
 }
