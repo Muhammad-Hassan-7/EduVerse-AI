@@ -10,6 +10,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { SuperAdminLayoutComponent } from './layouts/superadmin-layout/superadmin-layout.component';
 import { TeacherLayoutComponent } from './layouts/teacher-layout/teacher-layout.component';
 import { TeacherDashboardComponent } from './features/teacher/pages/teacher-dashboard/teacher-dashboard.component';
 import { TeacherCoursesComponent } from './features/teacher/pages/teacher-courses/teacher-courses.component';
@@ -27,6 +28,7 @@ import { LeaderboardComponent } from './features/student/pages/leaderboard/leade
 import { StudentSettingsComponent } from './features/student/pages/student-settings/student-settings.component';
 import { QuizzesComponent } from './features/teacher/pages/quizzes/quizzes.component';
 import { ExploreCoursesComponent } from './features/student/pages/explore-courses/explore-courses.component';
+import { SuperadminDashboardComponent } from './features/super-admin/pages/superadmin-dashboard/superadmin-dashboard.component';
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
   {
@@ -78,6 +80,15 @@ export const routes: Routes = [
       { path: 'leaderboard', component: LeaderboardComponent },
       { path: 'settings', component: StudentSettingsComponent },
       { path: 'explore-courses', component: ExploreCoursesComponent },
+    ],
+  },
+{
+  path: 'superadmin',
+    component: SuperAdminLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: SuperadminDashboardComponent },
+
     ],
   },
 
