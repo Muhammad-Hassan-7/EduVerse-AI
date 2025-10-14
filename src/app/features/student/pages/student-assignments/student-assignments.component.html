@@ -1,8 +1,54 @@
-<div class="transition-all min-h-screen bg-gray-50">
+<div class="min-h-screen bg-slate-100">
   <app-header
     [profile]="{ name: 'Student Profile', initials: 'SP' }"
-    pageTitle="Assigments"
+    pageTitle="Assignments"
   ></app-header>
 
-  <main class="p-6"></main>
+  <main class="p-6 max-w-7xl mx-auto">
+    <div class="bg-white p-5 rounded-2xl">
+      <div class="mb-3 flex justify-center">
+        <div
+          class="flex space-x-2 bg-white rounded-xl shadow-sm p-1 border border-gray-200"
+        >
+          <button
+            *ngFor="let tab of tabs"
+            (click)="onTabChange(tab.id)"
+            [ngClass]="{
+              'bg-slate-500 text-white shadow-sm': activeTab === tab.id,
+              'bg-white text-gray-600 hover:bg-slate-100': activeTab !== tab.id
+            }"
+            class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+          >
+            {{ tab.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Assignment Grid (3 cards per row) -->
+      <div class="flex flex-col gap-4">
+        <app-assignment-detail
+          *ngFor="let assignment of filteredAssignments"
+          [assignment]="assignment"
+          (onViewSubmit)="handleViewSubmit($event)"
+          (onViewFeedback)="handleViewFeedback($event)"
+        ></app-assignment-detail>
+      </div>
+
+      <!-- Empty State -->
+      <div
+        *ngIf="filteredAssignments.length === 0"
+        class="text-center py-12 bg-white/70 rounded-2xl border border-gray-200 shadow-sm mt-6"
+      >
+        <div class="text-gray-400 mb-4">
+          <i class="fa-solid fa-file-lines text-4xl"></i>
+        </div>
+        <h3 class="text-base font-semibold text-gray-800 mb-1">
+          No assignments found
+        </h3>
+        <p class="text-sm text-gray-500">
+          There are no assignments in this category.
+        </p>
+      </div>
+    </div>
+  </main>
 </div>

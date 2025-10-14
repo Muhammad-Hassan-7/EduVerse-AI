@@ -1,7 +1,12 @@
 <app-modal-shell
   [show]="show"
   [title]="editingAssignmentId ? 'Edit Assignment' : 'Create New Assignment'"
+  [actionLabel]="
+    editingAssignmentId ? 'Update Assignment' : 'Create Assignment'
+  "
+  [isFormValid]="assignmentForm.valid"
   (close)="closeModal()"
+  (submit)="submitForm()"
 >
   <form
     [formGroup]="assignmentForm"
@@ -251,30 +256,6 @@
       <label class="text-sm text-primary-navy font-medium cursor-pointer"
         >Allow late submissions</label
       >
-    </div>
-
-    <!-- Buttons -->
-    <div class="flex gap-4 pt-4">
-      <app-button
-        (buttonClick)="closeModal()"
-        [customColor]="
-          'border-2 border-border-light text-primary-navy hover:bg-gray-50'
-        "
-        [fullWidth]="true"
-        [class]="'rounded-xl font-semibold'"
-      >
-        Cancel
-      </app-button>
-      <app-button
-        type="submit"
-        [customColor]="
-          'bg-blue-950 text-white hover:bg-gray-500 cursor-pointer'
-        "
-        [fullWidth]="true"
-        [class]="'rounded-xl font-semibold'"
-      >
-        {{ editingAssignmentId ? "Update Assignment" : "Create Assignment" }}
-      </app-button>
     </div>
   </form>
 </app-modal-shell>

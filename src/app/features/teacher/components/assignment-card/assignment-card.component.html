@@ -1,7 +1,6 @@
 <div
-  class="bg-slate-100 rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+  class="bg-slate-100 rounded-2xl shadow-sm border border-gray-200 px-6 py-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
 >
-  <!-- Header -->
   <div class="flex justify-between items-start mb-5">
     <div class="flex-1">
       <h3 class="text-2xl font-semibold text-gray-900 mb-1 tracking-tight">
@@ -37,17 +36,9 @@
     <!-- Action Buttons -->
     <div class="flex gap-2 ml-4">
       <app-button
-        (buttonClick)="onView.emit(assignment.id)"
-        title="View"
-        customColor="bg-blue-100 text-blue-700 hover:bg-blue-100"
-      >
-        <i class="fa-solid fa-eye"></i>
-      </app-button>
-
-      <app-button
         (buttonClick)="onEdit.emit(assignment.id)"
         title="Edit"
-        customColor="bg-yellow-50 text-yellow-700 hover:bg-yellow-100"
+        customColor="bg-blue-100 text-blue-700 hover:bg-blue-100"
       >
         <i class="fa-solid fa-pen"></i>
       </app-button>
@@ -63,11 +54,11 @@
   </div>
 
   <!-- Description -->
-  <p class="text-gray-400 text-sm leading-relaxed mb-5">
+  <p class="text-gray-400 text-sm leading-relaxed">
     {{ assignment.description }}
   </p>
 
-  <div class="mb-5">
+  <div class="mb-2">
     <div class="flex justify-between text-sm mb-2 font-medium text-gray-700">
       <span>Submission Progress</span>
       <span class="font-semibold text-blue-600">
@@ -86,7 +77,7 @@
     <!-- Status badge -->
     <span
       *ngIf="assignment.status === 'active'"
-      class="flex items-center gap-2 px-3 py-1.5 bg-green-100 text-green-700 rounded-full text-xs font-semibold uppercase tracking-wide"
+      class="flex items-center gap-2 px-2 py-1.5 bg-green-100 text-green-700 rounded-full text-xs font-semibold uppercase tracking-wide"
     >
       <i class="fa-solid fa-circle-check"></i> Active
     </span>
