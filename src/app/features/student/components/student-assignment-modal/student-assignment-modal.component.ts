@@ -1,12 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { ModalShellComponent } from '../../../../shared/components/modal-shell/modal-shell.component';
 
 @Component({
   selector: 'app-student-assignment-modal',
   standalone: true,
-  imports: [CommonModule, ModalShellComponent, ButtonComponent],
+  imports: [CommonModule, ModalShellComponent],
   templateUrl: './student-assignment-modal.component.html',
   styleUrl: './student-assignment-modal.component.css',
 })
