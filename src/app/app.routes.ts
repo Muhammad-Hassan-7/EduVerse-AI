@@ -26,10 +26,9 @@ import { LeaderboardComponent } from './features/student/pages/leaderboard/leade
 import { StudentSettingsComponent } from './features/student/pages/student-settings/student-settings.component';
 import { QuizzesComponent } from './features/teacher/pages/quizzes/quizzes.component';
 import { ExploreCoursesComponent } from './features/student/pages/explore-courses/explore-courses.component';
-import { SuperadminDashboardComponent } from './features/super-admin/pages/superadmin-dashboard/superadmin-dashboard.component';
+import { SuperadminDashboardComponent } from './features/super-admin/pages/super-admin-dashboard/super-admin-dashboard.component';
 import { AiAssistantComponent } from './features/student/pages/ai-assistant/ai-assistant.component';
 import { SuperAdminLayoutComponent } from './layouts/super-admin-layout/super-admin-layout.component';
-import { SuperAdminDashboardComponent } from './features/super-admin/pages/super-admin-dashboard/super-admin-dashboard.component';
 import { SuperAdminTenantsComponent } from './features/super-admin/pages/super-admin-tenants/super-admin-tenants.component';
 import { SuperAdminSettingsComponent } from './features/super-admin/pages/super-admin-settings/super-admin-settings.component';
 
@@ -87,22 +86,12 @@ export const routes: Routes = [
       { path: 'explore-courses', component: ExploreCoursesComponent },
     ],
   },
-{
-  path: 'superadmin',
-    component: SuperAdminLayoutComponent,
-    children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: SuperadminDashboardComponent },
-
-    ],
-  },
-
   {
     path: 'super-admin',
     component: SuperAdminLayoutComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: SuperAdminDashboardComponent },
+      { path: 'dashboard', component: SuperadminDashboardComponent },
       { path: 'tenants', component: SuperAdminTenantsComponent },
       { path: 'settings', component: SuperAdminSettingsComponent },
     ],
