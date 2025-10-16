@@ -9,11 +9,11 @@
 <div class="min-h-screen bg-background-light p-6">
   <div class="max-w-7xl mx-auto">
     <!-- Page Description -->
-    <div class="mb-8">
-      <div class="flex justify-between items-center">
-        <p class="text-text-muted">Create and manage student assignments</p>
+    <div class="mb-2">
+      <!-- <div class="flex justify-between items-center">
+        <p class="text-xl text-blue-950">Create and manage student assignments</p> -->
         <app-button
-          (buttonClick)="openCreateModal()"
+          (buttonClick)="openModal()"
           size="lg"
           customColor="mb-6 bg-blue-950 text-white hover:bg-gray-500 cursor-pointer"
           [class]="'flex items-center gap-2'"
@@ -21,68 +21,43 @@
           <i class="fa-solid fa-plus"></i>
           Create Assignment
         </app-button>
-      </div>
+      <!-- </div> -->
     </div>
 
-    <!-- Stats Cards -->
-    <div class="grid md:grid-cols-2 gap-6 mb-8">
-      <div
-        class="bg-white p-6 rounded-2xl shadow-sm border border-border-light"
-      >
-        <div class="flex items-center justify-between mb-3">
-          <div
-            class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center"
-          >
-            <i
-              class="fa-solid fa-file-alt text-primary-light-blue text-2xl"
-            ></i>
-          </div>
-          <span class="text-2xl font-bold text-primary-navy">{{
-            totalAssignmentsCount
-          }}</span>
-        </div>
-        <p class="text-text-muted text-sm">Total Assignments</p>
-      </div>
 
-      <div
-        class="bg-white p-6 rounded-2xl shadow-sm border border-border-light"
-      >
-        <div class="flex items-center justify-between mb-3">
-          <div
-            class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center"
-          >
-            <i class="fa-solid fa-check-circle text-green-600 text-2xl"></i>
-          </div>
-          <span class="text-2xl font-bold text-primary-navy">{{
-            totalSubmissionsCount
-          }}</span>
-        </div>
-        <p class="text-text-muted text-sm">Total Submissions</p>
-      </div>
+   
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <app-stat-card
+        title="Total Assignments"
+        [value]="totalAssignmentsCount"
+        icon="fa-solid fa-file-alt"
+        iconBgClass="bg-blue-100"
+        iconColorClass="text-blue-600"
+        bgColor="bg-white"
+      ></app-stat-card>
+
+      <app-stat-card
+        title="Total Submissions"
+        [value]="totalSubmissionsCount"
+        icon="fa-solid fa-check-circle"
+        iconBgClass="bg-green-100"
+        iconColorClass="text-green-600"
+        bgColor="bg-white"
+      ></app-stat-card>
     </div>
 
     <!-- Tabs -->
-    <div
-      class="bg-white rounded-2xl shadow-sm border border-border-light p-2 mb-6 inline-flex"
-    >
+    <div class="bg-white rounded-2xl shadow-sm border border-border-light p-2 mb-6 inline-flex">
       <app-button
         (buttonClick)="activeTab = 'active'"
-        [customColor]="
-          activeTab === 'active'
-            ? 'bg-primary-light-blue text-white'
-            : 'text-text-muted hover:text-primary-navy hover:bg-transparent'
-        "
+        [customColor]="activeTab === 'active' ? 'bg-primary-light-blue text-white' : 'text-text-muted hover:text-primary-navy hover:bg-transparent'"
         [class]="'rounded-xl font-semibold'"
       >
         Active ({{ activeCount }})
       </app-button>
       <app-button
         (buttonClick)="activeTab = 'completed'"
-        [customColor]="
-          activeTab === 'completed'
-            ? 'bg-primary-light-blue text-white'
-            : 'text-text-muted hover:text-primary-navy hover:bg-transparent'
-        "
+        [customColor]="activeTab === 'completed' ? 'bg-primary-light-blue text-white' : 'text-text-muted hover:text-primary-navy hover:bg-transparent'"
         [class]="'rounded-xl font-semibold'"
       >
         Completed ({{ completedCount }})
@@ -90,23 +65,14 @@
     </div>
 
     <!-- Empty State -->
-    <div
-      *ngIf="filteredAssignments.length === 0"
-      class="bg-white rounded-2xl shadow-sm border border-border-light p-12 text-center"
-    >
-      <div
-        class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4"
-      >
+    <div *ngIf="filteredAssignments.length === 0" class="bg-white rounded-2xl shadow-sm border border-border-light p-12 text-center">
+      <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <i class="fa-solid fa-folder-open text-gray-400 text-3xl"></i>
       </div>
-      <h3 class="text-xl font-bold text-primary-navy mb-2">
-        No Assignments Yet
-      </h3>
-      <p class="text-text-muted mb-6">
-        Get started by creating your first assignment
-      </p>
+      <h3 class="text-xl font-bold text-primary-navy mb-2">No Assignments Yet</h3>
+      <p class="text-text-muted mb-6">Get started by creating your first assignment</p>
       <app-button
-        (buttonClick)="openCreateModal()"
+        (buttonClick)="openModal()"
         size="lg"
         customColor="mb-6 bg-blue-950 text-white hover:bg-gray-500 cursor-pointer"
         [class]="'inline-flex items-center gap-2'"
@@ -116,363 +82,97 @@
       </app-button>
     </div>
 
-    <!-- Assignments List -->
-    <div *ngIf="filteredAssignments.length > 0" class="space-y-4">
-      <div
-        *ngFor="let assignment of filteredAssignments"
-        class="bg-white rounded-2xl shadow-sm border border-border-light p-6 hover:shadow-md transition-shadow"
-      >
-        <div class="flex justify-between items-start mb-4">
-          <div class="flex-1">
-            <h3 class="text-xl font-bold text-primary-navy mb-2">
-              {{ assignment.title }}
-            </h3>
-            <p class="text-text-muted text-sm mb-3">{{ assignment.course }}</p>
+   <!-- Assignments List -->
+<div *ngIf="filteredAssignments.length > 0" class="space-y-4">
+  <div
+    *ngFor="let assignment of filteredAssignments"
+    (click)="openModal(assignment)"
+    class="bg-white rounded-2xl shadow-sm border border-border-light p-6 hover:shadow-md transition-shadow cursor-pointer hover:bg-blue-50"
+  >
+    <div class="flex justify-between items-start mb-4">
+      <div class="flex-1">
+        <h3 class="text-xl font-bold text-primary-navy mb-2">{{ assignment.title }}</h3>
+        <p class="text-text-muted text-sm mb-3">{{ assignment.course }}</p>
 
-            <div class="flex flex-wrap gap-4 text-sm">
-              <div class="flex items-center gap-2 text-text-muted">
-                <i class="fa-solid fa-calendar"></i>
-                <span
-                  >Due: {{ formatDate(assignment.dueDate) }} at
-                  {{ assignment.dueTime }}</span
-                >
-              </div>
-              <div class="flex items-center gap-2 text-text-muted">
-                <i class="fa-solid fa-users"></i>
-                <span
-                  >{{ assignment.submitted }}/{{
-                    assignment.totalStudents
-                  }}
-                  Submitted</span
-                >
-              </div>
-              <div class="flex items-center gap-2 text-text-muted">
-                <i class="fa-solid fa-file-alt"></i>
-                <span>{{ assignment.totalMarks }} Marks</span>
-              </div>
-            </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <div class="flex items-center gap-2 text-text-muted">
+            <i class="fa-solid fa-calendar"></i>
+            <span>Due: {{ formatDate(assignment.dueDate) }} at {{ assignment.dueTime }}</span>
           </div>
-
-          <div class="flex gap-2">
-            <app-button
-              (buttonClick)="viewAssignment(assignment.id)"
-              [customColor]="
-                'w-10 h-10 flex items-center justify-center rounded-xl hover:bg-blue-50 text-primary-light-blue transition-colors p-0'
-              "
-              title="View Details"
-            >
-              <i class="fa-solid fa-eye"></i>
-            </app-button>
-            <app-button
-              (buttonClick)="editAssignment(assignment.id)"
-              [customColor]="
-                'w-10 h-10 flex items-center justify-center rounded-xl hover:bg-blue-50 text-primary-light-blue transition-colors p-0'
-              "
-              title="Edit"
-            >
-              <i class="fa-solid fa-edit"></i>
-            </app-button>
-            <app-button
-              (buttonClick)="deleteAssignment(assignment.id)"
-              [customColor]="
-                'w-10 h-10 flex items-center justify-center rounded-xl hover:bg-red-50 text-red-600 transition-colors p-0'
-              "
-              title="Delete"
-            >
-              <i class="fa-solid fa-trash"></i>
-            </app-button>
+          <div class="flex items-center gap-2 text-text-muted">
+            <i class="fa-solid fa-users"></i>
+            <span>{{ assignment.submitted }}/{{ assignment.totalStudents }} Submitted</span>
+          </div>
+          <div class="flex items-center gap-2 text-text-muted">
+            <i class="fa-solid fa-file-alt"></i>
+            <span>{{ assignment.totalMarks }} Marks</span>
           </div>
         </div>
+      </div>
 
-        <!-- Description -->
-        <div class="mb-4">
-          <p class="text-text-muted text-sm">{{ assignment.description }}</p>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="mb-4">
-          <div class="flex justify-between text-sm mb-2">
-            <span class="text-text-muted">Submission Progress</span>
-            <span class="text-primary-navy font-semibold">
-              {{ getSubmissionPercentage(assignment) }}%
-            </span>
-          </div>
-          <div class="w-full bg-gray-200 rounded-full h-2">
-            <div
-              class="bg-primary-light-blue h-2 rounded-full transition-all duration-500"
-              [style.width.%]="getSubmissionPercentage(assignment)"
-            ></div>
-          </div>
-        </div>
-
-        <!-- Status and Actions -->
-        <div class="flex justify-between items-center">
-          <div class="flex gap-2">
-            <span
-              *ngIf="assignment.status === 'active'"
-              class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold"
-            >
-              <i class="fa-solid fa-circle-check mr-1"></i>
-              Active
-            </span>
-            <span
-              *ngIf="assignment.status === 'completed'"
-              class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-xs font-semibold"
-            >
-              <i class="fa-solid fa-circle-check mr-1"></i>
-              Completed
-            </span>
-            <span
-              *ngIf="assignment.allowLateSubmission"
-              class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold"
-            >
-              <i class="fa-solid fa-clock mr-1"></i>
-              Late Submission Allowed
-            </span>
-          </div>
-
-          <button
-            (click)="toggleAssignmentStatus(assignment.id)"
-            [class]="
-              assignment.status === 'active'
-                ? 'bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl font-semibold text-sm transition-all duration-300'
-                : 'bg-primary-light-blue hover:bg-primary-navy text-white px-4 py-2 rounded-xl font-semibold text-sm transition-all duration-300'
-            "
-          >
-            {{
-              assignment.status === "active" ? "Mark Complete" : "Reactivate"
-            }}
-          </button>
-        </div>
+      <div class="flex gap-2">
+        <button
+          (click)="deleteAssignment(assignment.id, $event)"
+          class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-red-50 text-red-600 transition-colors"
+          title="Delete"
+        >
+          <i class="fa-solid fa-trash"></i>
+        </button>
       </div>
     </div>
 
-    <!-- Create/Edit Assignment Modal -->
-    <div
-      *ngIf="showCreateModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-    >
-      <div
-        class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
-      >
-        <div
-          class="sticky top-0 bg-white border-b border-border-light p-6 rounded-t-3xl z-10"
-        >
-          <div class="flex justify-between items-center">
-            <h2 class="text-2xl font-bold text-primary-navy font-poppins">
-              {{
-                editingAssignmentId
-                  ? "Edit Assignment"
-                  : "Create New Assignment"
-              }}
-            </h2>
-            <app-button
-              (buttonClick)="closeCreateModal()"
-              [customColor]="'hover:bg-gray-100'"
-              [class]="'w-10 h-10 p-0 rounded-xl'"
-            >
-              <i class="fa-solid fa-times text-xl"></i>
-            </app-button>
-          </div>
-        </div>
+    <!-- Description -->
+    <div class="mb-4">
+      <p class="text-text-muted text-sm">{{ assignment.description }}</p>
+    </div>
 
-        <div class="p-6 space-y-6">
-          <!-- Title -->
-          <div>
-            <label class="block text-sm font-semibold text-primary-navy mb-2">
-              Assignment Title *
-            </label>
-            <input
-              type="text"
-              [(ngModel)]="formData.title"
-              name="title"
-              class="w-full px-4 py-3 border border-border-light rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light-blue"
-              placeholder="e.g., Web Development Final Project"
-              required
-            />
-          </div>
-
-          <!-- Course Selection -->
-          <div>
-            <label class="block text-sm font-semibold text-primary-navy mb-2">
-              Select Course *
-            </label>
-            <select
-              [(ngModel)]="formData.course"
-              name="course"
-              class="w-full px-4 py-3 border border-border-light rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light-blue"
-              required
-            >
-              <option value="">Choose a course</option>
-              <option *ngFor="let course of courses" [value]="course">
-                {{ course }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Description -->
-          <div>
-            <label class="block text-sm font-semibold text-primary-navy mb-2">
-              Description *
-            </label>
-            <textarea
-              [(ngModel)]="formData.description"
-              name="description"
-              rows="4"
-              class="w-full px-4 py-3 border border-border-light rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light-blue resize-none"
-              placeholder="Describe the assignment requirements..."
-              required
-            ></textarea>
-          </div>
-
-          <!-- Due Date & Time -->
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-semibold text-primary-navy mb-2">
-                Due Date *
-              </label>
-              <input
-                type="date"
-                [(ngModel)]="formData.dueDate"
-                name="dueDate"
-                class="w-full px-4 py-3 border border-border-light rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light-blue"
-                required
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-primary-navy mb-2">
-                Due Time *
-              </label>
-              <input
-                type="time"
-                [(ngModel)]="formData.dueTime"
-                name="dueTime"
-                class="w-full px-4 py-3 border border-border-light rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light-blue"
-                required
-              />
-            </div>
-          </div>
-
-          <!-- Marks -->
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-semibold text-primary-navy mb-2">
-                Total Marks *
-              </label>
-              <input
-                type="number"
-                [(ngModel)]="formData.totalMarks"
-                name="totalMarks"
-                class="w-full px-4 py-3 border border-border-light rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light-blue"
-                placeholder="100"
-                min="1"
-                required
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-primary-navy mb-2">
-                Passing Marks *
-              </label>
-              <input
-                type="number"
-                [(ngModel)]="formData.passingMarks"
-                name="passingMarks"
-                class="w-full px-4 py-3 border border-border-light rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light-blue"
-                placeholder="40"
-                min="1"
-                required
-              />
-            </div>
-          </div>
-
-          <!-- File Upload -->
-          <div>
-            <label class="block text-sm font-semibold text-primary-navy mb-2">
-              Attachments (Optional)
-            </label>
-            <div
-              class="border-2 border-dashed border-border-light rounded-xl p-6 text-center hover:border-primary-light-blue transition-colors"
-            >
-              <input
-                type="file"
-                multiple
-                (change)="handleFileUpload($event)"
-                class="hidden"
-                id="file-upload"
-              />
-              <label for="file-upload" class="cursor-pointer block">
-                <i class="fa-solid fa-upload text-text-muted text-3xl mb-2"></i>
-                <p class="text-text-muted text-sm">
-                  Click to upload or drag and drop
-                </p>
-                <p class="text-text-muted text-xs mt-1">
-                  PDF, DOC, DOCX, ZIP (Max 10MB)
-                </p>
-              </label>
-            </div>
-
-            <!-- Attached Files -->
-            <div *ngIf="formData.attachments.length > 0" class="mt-3 space-y-2">
-              <div
-                *ngFor="let file of formData.attachments; let i = index"
-                class="flex items-center justify-between bg-gray-50 px-4 py-2 rounded-lg"
-              >
-                <span class="text-sm text-primary-navy">{{ file.name }}</span>
-                <app-button
-                  (buttonClick)="removeAttachment(i)"
-                  [customColor]="
-                    'text-red-600 hover:text-red-700 hover:bg-transparent'
-                  "
-                  [class]="'p-0'"
-                >
-                  <i class="fa-solid fa-trash text-sm"></i>
-                </app-button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Allow Late Submission -->
-          <div class="flex items-center gap-3">
-            <input
-              type="checkbox"
-              [(ngModel)]="formData.allowLateSubmission"
-              name="allowLateSubmission"
-              class="w-5 h-5 text-primary-light-blue rounded focus:ring-2 focus:ring-primary-light-blue cursor-pointer"
-              id="late-submission"
-            />
-            <label
-              for="late-submission"
-              class="text-sm text-primary-navy font-medium cursor-pointer"
-            >
-              Allow late submissions (with penalty)
-            </label>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex gap-4 pt-4">
-            <app-button
-              (buttonClick)="closeCreateModal()"
-              [customColor]="
-                'border-2 border-border-light text-primary-navy hover:bg-gray-50'
-              "
-              [fullWidth]="true"
-              [class]="'rounded-xl font-semibold'"
-            >
-              Cancel
-            </app-button>
-            <app-button
-              (buttonClick)="handleSubmit()"
-              customColor="mb-6 bg-blue-950 text-white hover:bg-gray-500 cursor-pointer"
-              [fullWidth]="true"
-              [class]="'rounded-xl font-semibold'"
-            >
-              {{
-                editingAssignmentId ? "Update Assignment" : "Create Assignment"
-              }}
-            </app-button>
-          </div>
-        </div>
+    <!-- Progress Bar -->
+    <div class="mb-4">
+      <div class="flex justify-between text-sm mb-2">
+        <span class="text-text-muted">Submission Progress</span>
+        <span class="text-primary-navy font-semibold">{{ getSubmissionPercentage(assignment) }}%</span>
       </div>
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div
+          class="bg-primary-light-blue h-2 rounded-full transition-all duration-500"
+          [style.width.%]="getSubmissionPercentage(assignment)"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Status and Actions -->
+    <div class="flex justify-between items-center">
+      <div class="flex gap-2">
+        <span *ngIf="assignment.status === 'active'" class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">
+          <i class="fa-solid fa-circle-check mr-1"></i>
+          Active
+        </span>
+        <span *ngIf="assignment.status === 'completed'" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-xs font-semibold">
+          <i class="fa-solid fa-circle-check mr-1"></i>
+          Completed
+        </span>
+        <span *ngIf="assignment.allowLateSubmission" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
+          <i class="fa-solid fa-clock mr-1"></i>
+          Late Submission Allowed
+        </span>
+      </div>
+
+      <button
+        (click)="toggleAssignmentStatus(assignment.id, $event)"
+        [class]="assignment.status === 'active' ? 'bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl font-semibold text-sm transition-all duration-300' : 'bg-primary-light-blue hover:bg-primary-navy text-white px-4 py-2 rounded-xl font-semibold text-sm transition-all duration-300'"
+      >
+        {{ assignment.status === "active" ? "Mark Complete" : "Reactivate" }}
+      </button>
     </div>
   </div>
 </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<app-create-assignment
+  *ngIf="showCreateModal"
+  [assignment]="selectedAssignment"
+  (close)="closeModal()"
+  (save)="addOrUpdateAssignment($event)"
+></app-create-assignment>

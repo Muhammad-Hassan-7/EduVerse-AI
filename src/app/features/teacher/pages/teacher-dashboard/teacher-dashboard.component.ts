@@ -37,16 +37,25 @@ export class TeacherDashboardComponent {
       action: () => this.onCreateCourse(),
     },
     {
-      title: 'Generate Quizzes',
+      title: 'Create Quizzes',
       icon: 'fa fa-edit',
       action: () => this.onGenerateQuiz(),
     },
+    {
+      title: 'Create Assignment ',
+      icon: 'fa-solid fa-file-circle-plus',
+      action: () => this.onGenerateAssignment(),
+    },
+    
   ];
 
   onCreateCourse() {
     this.router.navigate(['/teacher/courses']);
   }
-
+   
+  onGenerateAssignment() {
+    this.router.navigate(['/teacher/assignments']);
+  }
   onGenerateQuiz() {
     this.router.navigate(['/teacher/quizzes']);
   }

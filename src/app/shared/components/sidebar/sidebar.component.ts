@@ -25,7 +25,7 @@ interface MenuItem {
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnChanges {
-  @Input() role: 'admin' | 'teacher' | 'student' = 'admin';
+  @Input() role: 'admin' | 'teacher' | 'superadmin' | 'student' = 'admin';
   @Output() toggleSidebar = new EventEmitter<boolean>();
 
   constructor(private router: Router) {}
@@ -76,6 +76,7 @@ export class SidebarComponent implements OnChanges {
           path: 'dashboard',
         },
         { icon: 'fa-solid fa-book', label: 'My Courses', path: 'courses' },
+        { icon: 'fa-solid fa-book', label: 'Explore Courses', path: 'explore-courses' },
         { icon: 'fa-solid fa-question', label: 'Quizzes', path: 'quizzes' },
         { icon: 'fa-solid fa-file', label: 'Assignments', path: 'assignments' },
         { icon: 'fa-solid fa-robot', label: 'Ai Assistant', path: 'ai-assisstant' },
@@ -86,7 +87,17 @@ export class SidebarComponent implements OnChanges {
         },
         { icon: 'fa-solid fa-cog', label: 'Settings', path: 'settings' },
       ];
-    } else {
+    } 
+    else if (this.role === 'superadmin') {
+      this.menuItems = [
+        {
+          icon: 'fa-solid fa-chart-pie',label: 'Dashboard',path: 'dashboard',
+        },
+        { icon: 'fa-solid fa-building', label: 'Tenants', path: 'tenants' },
+        
+      ];
+    } 
+    else {
       this.menuItems = [];
     }
   }
