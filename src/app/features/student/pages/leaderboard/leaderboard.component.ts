@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { HeaderComponent } from '../../../../../shared/components/header/header.component';
+import { HeaderComponent } from '../../../../shared/components/header/header.component';
 //import { StatCardComponent } from '../../../../shared/components/stat-card/stat-card.component';
 
 @Component({

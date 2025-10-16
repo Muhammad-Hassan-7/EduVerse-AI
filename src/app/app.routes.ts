@@ -23,7 +23,7 @@ import { StudentDashboardComponent } from './features/student/pages/student-dash
 import { StudentCoursesComponent } from './features/student/pages/student-courses/student-courses.component';
 import { StudentQuizzesComponent } from './features/student/pages/student-quizzes/student-quizzes.component';
 import { StudentAssignmentsComponent } from './features/student/pages/student-assignments/student-assignments.component';
-import { LeaderboardComponent } from './features/student/pages/leaderboard/leaderboard/leaderboard.component';
+import { LeaderboardComponent } from './features/student/pages/leaderboard/leaderboard.component';
 import { StudentSettingsComponent } from './features/student/pages/student-settings/student-settings.component';
 import { QuizzesComponent } from './features/teacher/pages/quizzes/quizzes.component';
 import { AiAssistantComponent } from './features/student/pages/ai-assistant/ai-assistant.component';
