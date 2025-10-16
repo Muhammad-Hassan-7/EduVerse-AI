@@ -9,7 +9,7 @@ import { PaginationComponent } from '../pagination/pagination.component';
   standalone: true,
   imports: [CommonModule, ButtonComponent, PaginationComponent],
   templateUrl: './data-table.component.html',
-  styleUrl: './data-table.component.css'
+  styleUrl: './data-table.component.css',
 })
 export class DataTableComponent {
   /** Table title */
@@ -33,14 +33,15 @@ export class DataTableComponent {
   /** Row actions toggle */
   @Input() enableActions: boolean = false;
 
+  @Input() visibleActions: string[] = ['edit', 'delete']; // NEW
+
   /** Emits when an action is triggered */
   @Output() edit = new EventEmitter();
   @Output() delete = new EventEmitter();
 
-
-  @Input() pageSize: number = 5;      // how many rows per page → how many rows per page.
-  @Input() totalItems: number = 0;    // total number of rows → so it can pass this info down to pagination.
-  @Input() currentPage: number = 1;   // which page is active → determines which slice of rows to show (pagedRows).
+  @Input() pageSize: number = 5; // how many rows per page → how many rows per page.
+  @Input() totalItems: number = 0; // total number of rows → so it can pass this info down to pagination.
+  @Input() currentPage: number = 1; // which page is active → determines which slice of rows to show (pagedRows).
 
   @Output() pageChange = new EventEmitter<number>(); // event to notify parent // → listens for pagination changes and emits them upward (so the parent page like TeachersComponent can update currentPage).
 
@@ -54,7 +55,7 @@ export class DataTableComponent {
     return this.rows.slice(start, start + this.pageSize);
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   onViewAllClick() {
     if (this.viewAllRoute) {
@@ -63,9 +64,9 @@ export class DataTableComponent {
   }
   @Output() actionClick = new EventEmitter<any>();
 
-onActionClick(row: any) {
-  this.actionClick.emit(row);
-}
+  onActionClick(row: any) {
+    this.actionClick.emit(row);
+  }
 
   onEdit(row: any) {
     this.edit.emit(row);
@@ -77,10 +78,11 @@ onActionClick(row: any) {
 }
 
 export interface TableColumn {
-  key: string;                        // property name in row object
-  label: string;                      // column header label
-  type?: 'text' | 'badge' | 'avatar'|'date' | 'action'; // special rendering
-  badgeColors?: {                     // used only when type = 'badge'
-    [key: string]: string
+  key: string; // property name in row object
+  label: string; // column header label
+  type?: 'text' | 'badge' | 'avatar' | 'date' | 'action'; // special rendering
+  badgeColors?: {
+    // used only when type = 'badge'
+    [key: string]: string;
   };
 }

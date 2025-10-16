@@ -9,7 +9,6 @@ import { NotFoundComponent } from './features/not-found/not-found/not-found.comp
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { SuperAdminLayoutComponent } from './layouts/superadmin-layout/superadmin-layout.component';
 import { TeacherLayoutComponent } from './layouts/teacher-layout/teacher-layout.component';
 import { TeacherDashboardComponent } from './features/teacher/pages/teacher-dashboard/teacher-dashboard.component';
 import { TeacherCoursesComponent } from './features/teacher/pages/teacher-courses/teacher-courses.component';
@@ -29,6 +28,11 @@ import { QuizzesComponent } from './features/teacher/pages/quizzes/quizzes.compo
 import { ExploreCoursesComponent } from './features/student/pages/explore-courses/explore-courses.component';
 import { SuperadminDashboardComponent } from './features/super-admin/pages/superadmin-dashboard/superadmin-dashboard.component';
 import { AiAssistantComponent } from './features/student/pages/ai-assistant/ai-assistant.component';
+import { SuperAdminLayoutComponent } from './layouts/super-admin-layout/super-admin-layout.component';
+import { SuperAdminDashboardComponent } from './features/super-admin/pages/super-admin-dashboard/super-admin-dashboard.component';
+import { SuperAdminTenantsComponent } from './features/super-admin/pages/super-admin-tenants/super-admin-tenants.component';
+import { SuperAdminSettingsComponent } from './features/super-admin/pages/super-admin-settings/super-admin-settings.component';
+
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
   {
@@ -90,6 +94,17 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: SuperadminDashboardComponent },
 
+    ],
+  },
+
+  {
+    path: 'super-admin',
+    component: SuperAdminLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: SuperAdminDashboardComponent },
+      { path: 'tenants', component: SuperAdminTenantsComponent },
+      { path: 'settings', component: SuperAdminSettingsComponent },
     ],
   },
 

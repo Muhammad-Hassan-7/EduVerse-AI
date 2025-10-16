@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-student-dashboard',
+  standalone: true,
   imports: [
     CommonModule,
     HeaderComponent,
@@ -24,17 +25,18 @@ import { CommonModule } from '@angular/common';
 export class StudentDashboardComponent {
   statsCards: StatCard[] = [
     {
-      title: 'Courses Ennrolled',
+      title: 'Courses Enrolled',
       value: '05',
       icon: 'fas fa-graduation-cap',
+      bgColor: 'bg-blue-50', // light background for the card
       iconBgClass: 'bg-blue-100',
       iconColorClass: 'text-blue-600',
     },
-
     {
       title: 'Assignments Due',
       value: '03',
       icon: 'fas fa-book-open',
+      bgColor: 'bg-purple-50',
       iconBgClass: 'bg-purple-100',
       iconColorClass: 'text-purple-600',
     },
@@ -42,6 +44,7 @@ export class StudentDashboardComponent {
       title: 'Pending Quizzes',
       value: '04',
       icon: 'fas fa-chalkboard-teacher',
+      bgColor: 'bg-orange-50',
       iconBgClass: 'bg-orange-100',
       iconColorClass: 'text-orange-600',
     },
@@ -78,6 +81,7 @@ interface StatCard {
   title: string;
   value: string;
   icon: string;
+  bgColor: string;
   iconBgClass: string;
   iconColorClass: string;
 }

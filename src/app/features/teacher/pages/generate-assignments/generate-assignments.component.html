@@ -1,178 +1,88 @@
-<!-- Header -->
 <app-header
   pageTitle="Assignments"
   [profile]="{ name: 'Teacher Profile', initials: 'TP' }"
   (profileClick)="onProfileClick()"
->
-</app-header>
+></app-header>
 
-<div class="min-h-screen bg-background-light p-6">
-  <div class="max-w-7xl mx-auto">
-    <!-- Page Description -->
-    <div class="mb-2">
-      <!-- <div class="flex justify-between items-center">
-        <p class="text-xl text-blue-950">Create and manage student assignments</p> -->
-        <app-button
-          (buttonClick)="openModal()"
-          size="lg"
-          customColor="mb-6 bg-blue-950 text-white hover:bg-gray-500 cursor-pointer"
-          [class]="'flex items-center gap-2'"
-        >
-          <i class="fa-solid fa-plus"></i>
-          Create Assignment
-        </app-button>
-      <!-- </div> -->
-    </div>
+<div class="min-h-screen bg-white p-6 max-w-7xl mx-auto">
+  <div class="flex justify-between items-center mb-4">
+    <p class="text-blue-950 text-xl">Create and manage student assignments</p>
+    <app-button
+      (buttonClick)="openCreateModal()"
+      customColor="bg-blue-950 text-white hover:bg-gray-500"
+    >
+      <i class="fa-solid fa-plus mr-2"></i> Create Assignment
+    </app-button>
+  </div>
 
+  <div class="grid md:grid-cols-2 gap-10 mb-4 px-20">
+    <app-stat-card
+      icon="fa-solid fa-file-alt"
+      [value]="totalAssignmentsCount"
+      title="Total Assignments"
+      bgColor="bg-purple-50"
+      iconBgClass="bg-purple-100"
+      iconColorClass="text-purple-600"
+    ></app-stat-card>
 
-   
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      <app-stat-card
-        title="Total Assignments"
-        [value]="totalAssignmentsCount"
-        icon="fa-solid fa-file-alt"
-        iconBgClass="bg-blue-100"
-        iconColorClass="text-blue-600"
-        bgColor="bg-white"
-      ></app-stat-card>
+    <app-stat-card
+      icon="fa-solid fa-check-circle"
+      [value]="totalSubmissionsCount"
+      title="Total Submissions"
+      bgColor="bg-green-50"
+      iconBgClass="bg-green-100"
+      iconColorClass="text-green-600"
+    ></app-stat-card>
+  </div>
 
-      <app-stat-card
-        title="Total Submissions"
-        [value]="totalSubmissionsCount"
-        icon="fa-solid fa-check-circle"
-        iconBgClass="bg-green-100"
-        iconColorClass="text-green-600"
-        bgColor="bg-white"
-      ></app-stat-card>
-    </div>
-
-    <!-- Tabs -->
-    <div class="bg-white rounded-2xl shadow-sm border border-border-light p-2 mb-6 inline-flex">
-      <app-button
-        (buttonClick)="activeTab = 'active'"
-        [customColor]="activeTab === 'active' ? 'bg-primary-light-blue text-white' : 'text-text-muted hover:text-primary-navy hover:bg-transparent'"
-        [class]="'rounded-xl font-semibold'"
-      >
-        Active ({{ activeCount }})
-      </app-button>
-      <app-button
-        (buttonClick)="activeTab = 'completed'"
-        [customColor]="activeTab === 'completed' ? 'bg-primary-light-blue text-white' : 'text-text-muted hover:text-primary-navy hover:bg-transparent'"
-        [class]="'rounded-xl font-semibold'"
-      >
-        Completed ({{ completedCount }})
-      </app-button>
-    </div>
-
-    <!-- Empty State -->
-    <div *ngIf="filteredAssignments.length === 0" class="bg-white rounded-2xl shadow-sm border border-border-light p-12 text-center">
-      <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i class="fa-solid fa-folder-open text-gray-400 text-3xl"></i>
-      </div>
-      <h3 class="text-xl font-bold text-primary-navy mb-2">No Assignments Yet</h3>
-      <p class="text-text-muted mb-6">Get started by creating your first assignment</p>
-      <app-button
-        (buttonClick)="openModal()"
-        size="lg"
-        customColor="mb-6 bg-blue-950 text-white hover:bg-gray-500 cursor-pointer"
-        [class]="'inline-flex items-center gap-2'"
-      >
-        <i class="fa-solid fa-plus"></i>
-        Create Assignment
-      </app-button>
-    </div>
-
-   <!-- Assignments List -->
-<div *ngIf="filteredAssignments.length > 0" class="space-y-4">
   <div
-    *ngFor="let assignment of filteredAssignments"
-    (click)="openModal(assignment)"
-    class="bg-white rounded-2xl shadow-sm border border-border-light p-6 hover:shadow-md transition-shadow cursor-pointer hover:bg-blue-50"
+    class="bg-white rounded-2xl shadow-sm border border-border-light p-2 mb-6 inline-flex"
   >
-    <div class="flex justify-between items-start mb-4">
-      <div class="flex-1">
-        <h3 class="text-xl font-bold text-primary-navy mb-2">{{ assignment.title }}</h3>
-        <p class="text-text-muted text-sm mb-3">{{ assignment.course }}</p>
-
-        <div class="flex flex-wrap gap-4 text-sm">
-          <div class="flex items-center gap-2 text-text-muted">
-            <i class="fa-solid fa-calendar"></i>
-            <span>Due: {{ formatDate(assignment.dueDate) }} at {{ assignment.dueTime }}</span>
-          </div>
-          <div class="flex items-center gap-2 text-text-muted">
-            <i class="fa-solid fa-users"></i>
-            <span>{{ assignment.submitted }}/{{ assignment.totalStudents }} Submitted</span>
-          </div>
-          <div class="flex items-center gap-2 text-text-muted">
-            <i class="fa-solid fa-file-alt"></i>
-            <span>{{ assignment.totalMarks }} Marks</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex gap-2">
-        <button
-          (click)="deleteAssignment(assignment.id, $event)"
-          class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-red-50 text-red-600 transition-colors"
-          title="Delete"
-        >
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Description -->
-    <div class="mb-4">
-      <p class="text-text-muted text-sm">{{ assignment.description }}</p>
-    </div>
-
-    <!-- Progress Bar -->
-    <div class="mb-4">
-      <div class="flex justify-between text-sm mb-2">
-        <span class="text-text-muted">Submission Progress</span>
-        <span class="text-primary-navy font-semibold">{{ getSubmissionPercentage(assignment) }}%</span>
-      </div>
-      <div class="w-full bg-gray-200 rounded-full h-2">
-        <div
-          class="bg-primary-light-blue h-2 rounded-full transition-all duration-500"
-          [style.width.%]="getSubmissionPercentage(assignment)"
-        ></div>
-      </div>
-    </div>
-
-    <!-- Status and Actions -->
-    <div class="flex justify-between items-center">
-      <div class="flex gap-2">
-        <span *ngIf="assignment.status === 'active'" class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">
-          <i class="fa-solid fa-circle-check mr-1"></i>
-          Active
-        </span>
-        <span *ngIf="assignment.status === 'completed'" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-xs font-semibold">
-          <i class="fa-solid fa-circle-check mr-1"></i>
-          Completed
-        </span>
-        <span *ngIf="assignment.allowLateSubmission" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-          <i class="fa-solid fa-clock mr-1"></i>
-          Late Submission Allowed
-        </span>
-      </div>
-
-      <button
-        (click)="toggleAssignmentStatus(assignment.id, $event)"
-        [class]="assignment.status === 'active' ? 'bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl font-semibold text-sm transition-all duration-300' : 'bg-primary-light-blue hover:bg-primary-navy text-white px-4 py-2 rounded-xl font-semibold text-sm transition-all duration-300'"
-      >
-        {{ assignment.status === "active" ? "Mark Complete" : "Reactivate" }}
-      </button>
-    </div>
+    <app-button
+      (buttonClick)="activeTab = 'active'"
+      [customColor]="
+        activeTab === 'active' ? 'bg-slate-500 text-white' : 'text-text-muted'
+      "
+    >
+      Active ({{ activeCount }})
+    </app-button>
+    <app-button
+      (buttonClick)="activeTab = 'completed'"
+      [customColor]="
+        activeTab === 'completed'
+          ? 'bg-slate-500 text-white'
+          : 'text-text-muted'
+      "
+    >
+      Completed ({{ completedCount }})
+    </app-button>
   </div>
-</div>
-  </div>
-</div>
 
-<!-- Modal -->
-<app-create-assignment
-  *ngIf="showCreateModal"
-  [assignment]="selectedAssignment"
-  (close)="closeModal()"
-  (save)="addOrUpdateAssignment($event)"
-></app-create-assignment>
+  <app-empty-state
+    *ngIf="filteredAssignments.length === 0"
+    (createClick)="openCreateModal()"
+  ></app-empty-state>
+
+  <div *ngIf="filteredAssignments.length > 0" class="flex flex-col gap-4 mb-10">
+    <app-assignment-card
+      *ngFor="let assignment of filteredAssignments"
+      [assignment]="assignment"
+      (onView)="viewAssignment($event)"
+      (onEdit)="editAssignment($event)"
+      (onDelete)="deleteAssignment($event)"
+      (onToggleStatus)="toggleAssignmentStatus($event)"
+    >
+    </app-assignment-card>
+  </div>
+
+  <app-assignment-modal
+    *ngIf="showCreateModal"
+    [show]="showCreateModal"
+    [formData]="formData"
+    [editingAssignmentId]="editingAssignmentId"
+    [courses]="courses"
+    (onClose)="closeCreateModal()"
+    (onSubmit)="handleSubmit($event)"
+  >
+  </app-assignment-modal>
+</div>
