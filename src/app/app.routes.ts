@@ -26,6 +26,7 @@ import { StudentAssignmentsComponent } from './features/student/pages/student-as
 import { LeaderboardComponent } from './features/student/pages/leaderboard/leaderboard/leaderboard.component';
 import { StudentSettingsComponent } from './features/student/pages/student-settings/student-settings.component';
 import { QuizzesComponent } from './features/teacher/pages/quizzes/quizzes.component';
+import { AiAssistantComponent } from './features/student/pages/ai-assistant/ai-assistant.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -75,6 +76,7 @@ export const routes: Routes = [
       { path: 'courses', component: StudentCoursesComponent },
       { path: 'quizzes', component: StudentQuizzesComponent },
       { path: 'assignments', component: StudentAssignmentsComponent },
+      { path: 'ai-assisstant', component: AiAssistantComponent },
       { path: 'leaderboard', component: LeaderboardComponent },
       { path: 'settings', component: StudentSettingsComponent },
     ],

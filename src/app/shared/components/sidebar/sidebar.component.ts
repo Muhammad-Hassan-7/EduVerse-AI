@@ -78,6 +78,8 @@ export class SidebarComponent implements OnChanges {
         { icon: 'fa-solid fa-book', label: 'My Courses', path: 'courses' },
         { icon: 'fa-solid fa-question', label: 'Quizzes', path: 'quizzes' },
         { icon: 'fa-solid fa-file', label: 'Assignments', path: 'assignments' },
+         { icon: 'fa-solid fa-robot', label: 'Ai Assistant', path: 'ai-assisstant' },
+
         {
           icon: 'fa-solid fa-user',
           label: 'Leaderboard',
