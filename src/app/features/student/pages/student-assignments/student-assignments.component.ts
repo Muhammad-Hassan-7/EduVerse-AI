@@ -1,4 +1,3 @@
-// student-assignments.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../../shared/components/header/header.component';
@@ -6,13 +5,17 @@ import {
   AssignmentDetailComponent,
   AssignmentDetail,
 } from '../../components/assignment-detail/assignment-detail.component';
-
-type TabType = 'all' | 'pending' | 'submitted' | 'graded';
+import { FiltersComponent } from '../../../../shared/components/filters/filters.component';
 
 @Component({
   selector: 'app-student-assignments',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, AssignmentDetailComponent],
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    AssignmentDetailComponent,
+    FiltersComponent,
+  ],
   templateUrl: './student-assignments.component.html',
   styleUrls: ['./student-assignments.component.css'],
 })
@@ -72,52 +75,56 @@ export class StudentAssignmentsComponent implements OnInit {
   ];
 
   filteredAssignments: AssignmentDetail[] = [];
-  activeTab: TabType = 'all';
-  tabs: { id: TabType; label: string }[] = [
-    { id: 'all', label: 'All' },
-    { id: 'pending', label: 'Pending' },
-    { id: 'submitted', label: 'Submitted' },
-    { id: 'graded', label: 'Graded' },
+
+  // Dropdowns for FiltersComponent
+  filterDropdowns = [
+    {
+      key: 'status',
+      label: 'Status',
+      options: ['pending', 'submitted', 'graded'],
+    },
+    {
+      key: 'course',
+      label: 'Course',
+      options: [
+        'History of Art',
+        'Advanced Mathematics',
+        'Intro to Marketing',
+        'Digital Illustration',
+      ],
+    },
   ];
 
   ngOnInit() {
-    this.filterAssignments();
+    this.filteredAssignments = [...this.assignments];
   }
 
-  filterAssignments() {
-    if (this.activeTab === 'all') {
-      this.filteredAssignments = this.assignments;
-    } else {
-      this.filteredAssignments = this.assignments.filter(
-        (assignment) => assignment.status === this.activeTab
-      );
-    }
-  }
+  // Called when FiltersComponent emits new values
+  onFiltersChange(filters: { [key: string]: string }) {
+    const { search, status, course } = filters;
 
-  onTabChange(tab: TabType) {
-    this.activeTab = tab;
-    this.filterAssignments();
-  }
+    this.filteredAssignments = this.assignments.filter((a) => {
+      const matchesSearch =
+        !search ||
+        a.title.toLowerCase().includes(search.toLowerCase()) ||
+        a.course.toLowerCase().includes(search.toLowerCase()) ||
+        (a.description &&
+          a.description.toLowerCase().includes(search.toLowerCase()));
 
-  getTabClass(tabId: TabType): string {
-    const baseClasses =
-      'px-4 py-2 rounded-md text-sm font-medium transition-colors';
-    if (this.activeTab === tabId) {
-      return `${baseClasses} bg-blue-600 text-white`;
-    } else {
-      return `${baseClasses} text-gray-600 hover:text-gray-900`;
-    }
+      const matchesStatus = !status || a.status === status;
+      const matchesCourse = !course || a.course === course;
+
+      return matchesSearch && matchesStatus && matchesCourse;
+    });
   }
 
   handleViewSubmit(assignmentId: number) {
     console.log('View/Submit assignment:', assignmentId);
-    // Open submission modal or navigate to submission page
-    // You can implement modal opening logic here
+    // Open submission modal logic here
   }
 
   handleViewFeedback(assignmentId: number) {
     console.log('View feedback for assignment:', assignmentId);
-    // Open feedback modal
-    // You can implement feedback modal logic here
+    // Open feedback modal logic here
   }
 }
