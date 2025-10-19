@@ -7,7 +7,6 @@ import { AdminSignupComponent } from './features/auth/pages/signups/admin-signup
 import { StudentSignupComponent } from './features/auth/pages/signups/student-signup/student-signup.component';
 import { NotFoundComponent } from './features/not-found/not-found/not-found.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { TeacherLayoutComponent } from './layouts/teacher-layout/teacher-layout.component';
@@ -23,10 +22,15 @@ import { StudentDashboardComponent } from './features/student/pages/student-dash
 import { StudentCoursesComponent } from './features/student/pages/student-courses/student-courses.component';
 import { StudentQuizzesComponent } from './features/student/pages/student-quizzes/student-quizzes.component';
 import { StudentAssignmentsComponent } from './features/student/pages/student-assignments/student-assignments.component';
-import { LeaderboardComponent } from './features/student/pages/leaderboard/leaderboard/leaderboard.component';
+import { LeaderboardComponent } from './features/student/pages/leaderboard/leaderboard.component';
 import { StudentSettingsComponent } from './features/student/pages/student-settings/student-settings.component';
 import { QuizzesComponent } from './features/teacher/pages/quizzes/quizzes.component';
+import { ExploreCoursesComponent } from './features/student/pages/explore-courses/explore-courses.component';
+import { SuperadminDashboardComponent } from './features/super-admin/pages/super-admin-dashboard/super-admin-dashboard.component';
 import { AiAssistantComponent } from './features/student/pages/ai-assistant/ai-assistant.component';
+import { SuperAdminLayoutComponent } from './layouts/super-admin-layout/super-admin-layout.component';
+import { SuperAdminTenantsComponent } from './features/super-admin/pages/super-admin-tenants/super-admin-tenants.component';
+import { SuperAdminSettingsComponent } from './features/super-admin/pages/super-admin-settings/super-admin-settings.component';
 import { StudentDetailsComponent } from './features/teacher/pages/student-details/student-details.component';
 
 export const routes: Routes = [
@@ -82,6 +86,17 @@ export const routes: Routes = [
       { path: 'ai-assisstant', component: AiAssistantComponent },
       { path: 'leaderboard', component: LeaderboardComponent },
       { path: 'settings', component: StudentSettingsComponent },
+      { path: 'explore-courses', component: ExploreCoursesComponent },
+    ],
+  },
+  {
+    path: 'super-admin',
+    component: SuperAdminLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: SuperadminDashboardComponent },
+      { path: 'tenants', component: SuperAdminTenantsComponent },
+      { path: 'settings', component: SuperAdminSettingsComponent },
     ],
   },
 

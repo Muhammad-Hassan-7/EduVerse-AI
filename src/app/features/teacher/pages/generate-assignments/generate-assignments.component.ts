@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { HeaderComponent } from '../../../../shared/components/header/header.component';
+import { StatCardComponent } from '../../../../shared/components/stat-card/stat-card.component';
+
+import { AssignmentModalComponent } from '../../components/assignment-modal/assignment-modal.component';
+import { AssignmentCardComponent } from '../../components/assignment-card/assignment-card.component';
+import { EmptyStateComponent } from '../../components/empty-state/empty-state.component';
+import { FormsModule } from '@angular/forms';
+
 
 interface Assignment {
   id: number;
@@ -22,22 +28,35 @@ interface Assignment {
 @Component({
   selector: 'app-generate-assignments',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent, HeaderComponent],
+
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonComponent,
+    HeaderComponent,
+    StatCardComponent,
+    AssignmentModalComponent,
+    AssignmentCardComponent,
+    EmptyStateComponent,
+  ],
+
   templateUrl: './generate-assignments.component.html',
-  styleUrls: ['./generate-assignments.component.css']
+  styleUrls: ['./generate-assignments.component.css'],
 })
 export class GenerateAssignmentsComponent implements OnInit {
   activeTab: 'active' | 'completed' = 'active';
   showCreateModal = false;
-  editingAssignmentId: number | null = null;
+  selectedAssignment: any = null;
   
-  // Header profile data
+  editingAssignmentId: number | null = null;
+
   teacherProfile = {
-    name: 'Teacher Name',
-    initials: 'TN',
-    avatar: '' 
+    name: 'Teacher Profile',
+    initials: 'TP',
+    avatar: '',
   };
   
+
   formData = {
     title: '',
     description: '',
@@ -47,12 +66,10 @@ export class GenerateAssignmentsComponent implements OnInit {
     totalMarks: '',
     passingMarks: '',
     allowLateSubmission: false,
-    attachments: [] as File[]
+    attachments: [] as File[],
   };
 
-  assignments: Assignment[] = [
-   
-  ];
+  assignments: Assignment[] = [];
 
   courses = [
     'Advanced Web Development',
@@ -61,8 +78,9 @@ export class GenerateAssignmentsComponent implements OnInit {
     'Backend Development',
     'Mobile App Development',
     'Web Technologies',
-    'Database Systems'
+    'Database Systems',
   ];
+  
 
   ngOnInit() {
     this.loadAssignments();
@@ -76,19 +94,22 @@ export class GenerateAssignmentsComponent implements OnInit {
   }
 
   saveAssignments() {
-    localStorage.setItem('teacher-assignments', JSON.stringify(this.assignments));
+    localStorage.setItem(
+      'teacher-assignments',
+      JSON.stringify(this.assignments)
+    );
   }
 
   get filteredAssignments() {
-    return this.assignments.filter(a => a.status === this.activeTab);
+    return this.assignments.filter((a) => a.status === this.activeTab);
   }
 
   get activeCount() {
-    return this.assignments.filter(a => a.status === 'active').length;
+    return this.assignments.filter((a) => a.status === 'active').length;
   }
 
   get completedCount() {
-    return this.assignments.filter(a => a.status === 'completed').length;
+    return this.assignments.filter((a) => a.status === 'completed').length;
   }
 
   get totalAssignmentsCount() {
@@ -96,7 +117,10 @@ export class GenerateAssignmentsComponent implements OnInit {
   }
 
   get totalSubmissionsCount() {
-    return this.assignments.reduce((total, assignment) => total + assignment.submitted, 0);
+    return this.assignments.reduce(
+      (total, assignment) => total + assignment.submitted,
+      0
+    );
   }
 
   getSubmissionPercentage(assignment: Assignment): number {
@@ -111,46 +135,41 @@ export class GenerateAssignmentsComponent implements OnInit {
   handleFileUpload(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      this.formData.attachments = [...this.formData.attachments, ...Array.from(input.files)];
+      this.formData.attachments = [
+        ...this.formData.attachments,
+        ...Array.from(input.files),
+      ];
     }
   }
 
   removeAttachment(index: number) {
-    this.formData.attachments = this.formData.attachments.filter((_, i) => i !== index);
+    this.formData.attachments = this.formData.attachments.filter(
+      (_, i) => i !== index
+    );
   }
 
-  handleSubmit() {
+  handleSubmit(modalData: any) {
     if (this.editingAssignmentId) {
-      // Update existing assignment
-      const index = this.assignments.findIndex(a => a.id === this.editingAssignmentId);
+      const index = this.assignments.findIndex(
+        (a) => a.id === this.editingAssignmentId
+      );
       if (index !== -1) {
         this.assignments[index] = {
           ...this.assignments[index],
-          title: this.formData.title,
-          description: this.formData.description,
-          course: this.formData.course,
-          dueDate: this.formData.dueDate,
-          dueTime: this.formData.dueTime,
-          totalMarks: parseInt(this.formData.totalMarks),
-          passingMarks: parseInt(this.formData.passingMarks),
-          allowLateSubmission: this.formData.allowLateSubmission
+          ...modalData,
+          totalMarks: parseInt(modalData.totalMarks),
+          passingMarks: parseInt(modalData.passingMarks),
         };
       }
     } else {
-      // Create new assignment
       const newAssignment: Assignment = {
         id: Date.now(),
-        title: this.formData.title,
-        description: this.formData.description,
-        course: this.formData.course,
-        dueDate: this.formData.dueDate,
-        dueTime: this.formData.dueTime,
-        totalMarks: parseInt(this.formData.totalMarks),
-        passingMarks: parseInt(this.formData.passingMarks),
+        ...modalData,
+        totalMarks: parseInt(modalData.totalMarks),
+        passingMarks: parseInt(modalData.passingMarks),
         submitted: 0,
         totalStudents: 50,
         status: 'active',
-        allowLateSubmission: this.formData.allowLateSubmission
       };
       this.assignments.unshift(newAssignment);
     }
@@ -171,7 +190,7 @@ export class GenerateAssignmentsComponent implements OnInit {
       totalMarks: '',
       passingMarks: '',
       allowLateSubmission: false,
-      attachments: []
+      attachments: [],
     };
     this.editingAssignmentId = null;
   }
@@ -195,8 +214,8 @@ export class GenerateAssignmentsComponent implements OnInit {
 
   editAssignment(id: number) {
     console.log('Edit assignment:', id);
-    const assignment = this.assignments.find(a => a.id === id);
-    
+    const assignment = this.assignments.find((a) => a.id === id);
+
     if (assignment) {
       // Pre-fill form with assignment data
       this.formData = {
@@ -208,12 +227,11 @@ export class GenerateAssignmentsComponent implements OnInit {
         totalMarks: assignment.totalMarks.toString(),
         passingMarks: assignment.passingMarks.toString(),
         allowLateSubmission: assignment.allowLateSubmission,
-        attachments: []
+        attachments: [],
       };
-      
-      // Open the modal
+
       this.showCreateModal = true;
-      
+
       // Store the ID being edited so we can update instead of create
       this.editingAssignmentId = id;
     }
@@ -221,22 +239,21 @@ export class GenerateAssignmentsComponent implements OnInit {
 
   deleteAssignment(id: number) {
     if (confirm('Are you sure you want to delete this assignment?')) {
-      this.assignments = this.assignments.filter(a => a.id !== id);
+      this.assignments = this.assignments.filter((a) => a.id !== id);
       this.saveAssignments();
-      console.log('Assignment deleted:', id);
     }
   }
 
   toggleAssignmentStatus(id: number) {
-    const assignment = this.assignments.find(a => a.id === id);
+    const assignment = this.assignments.find((a) => a.id === id);
     if (assignment) {
-      assignment.status = assignment.status === 'active' ? 'completed' : 'active';
+      assignment.status =
+        assignment.status === 'active' ? 'completed' : 'active';
       this.saveAssignments();
     }
   }
 
   onProfileClick() {
     console.log('Profile clicked');
-    
   }
 }

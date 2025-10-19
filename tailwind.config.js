@@ -11,7 +11,7 @@ module.exports = {
         "primary-light": "#3b82f6",
         "background-light": "#f6f6f8",
         "background-dark": "#13151f",
-        'primary-navy': '#0c1333',
+        'primary-navy': '#0F172A',
         'primary-light-blue': '#3b82f6',
         'background-light': '#f6f6f8',
         'background-dark': '#13151f',

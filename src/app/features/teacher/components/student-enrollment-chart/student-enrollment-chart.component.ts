@@ -11,7 +11,7 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
   styleUrls: ['./student-enrollment-chart.component.css']
 })
 export class StudentEnrollmentChartComponent {
-  subjects = ['Math101', 'HistoryT201', 'CS101'];
+  subjects = ['Math101', 'HistoryT201', 'CS101', 'English'];
   enrollments = [25, 22, 20, 30];
 
   barChartData: ChartConfiguration<'bar'>['data'] = {
