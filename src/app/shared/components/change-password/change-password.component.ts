@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-change-password',
@@ -15,7 +15,9 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css'],
 })
-export class ChangePasswordComponent {
+export class ChangePasswordComponent implements OnInit {
+  @Input() isSuperAdmin = false;
+
   changePasswordForm: FormGroup;
 
   showOldPassword = false;
@@ -25,12 +27,22 @@ export class ChangePasswordComponent {
   constructor(private fb: FormBuilder) {
     this.changePasswordForm = this.fb.group(
       {
-        oldPassword: ['', [Validators.required, Validators.minLength(6)]],
+        oldPassword: [''], // Will enable/disable dynamically
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
       },
       { validators: this.passwordMatchValidator } // ✅ attach mismatch validator
     );
+  }
+
+  ngOnInit(): void {
+    if (!this.isSuperAdmin) {
+      this.changePasswordForm.get('oldPassword')?.setValidators([Validators.required, Validators.minLength(6)]);
+    } else {
+      this.changePasswordForm.get('oldPassword')?.clearValidators();
+    }
+
+    this.changePasswordForm.get('oldPassword')?.updateValueAndValidity();
   }
 
   // ✅ Custom Validator for mismatch

@@ -7,6 +7,7 @@ import {
 import { StatCardComponent } from '../../../../shared/components/stat-card/stat-card.component';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TenantService } from '../../services/tenant.service';
 
 @Component({
   selector: 'app-super-admin-tenants',
@@ -75,88 +76,16 @@ export class SuperAdminTenantsComponent {
     },
   ];
 
-  tenants: any[] = [
-    {
-      id: 1,
-      name: 'Innovate Inc.',
-      email: 'contact@innovate.com',
-      courses: 25,
-      teachers: 18,
-      students: 150,
-      subscription: 'Paid',
-    },
-    {
-      id: 2,
-      name: 'Quantum Solutions',
-      email: 'admin@quantum.com',
-      courses: 42,
-      teachers: 25,
-      students: 220,
-      subscription: 'Trial',
-    },
-    {
-      id: 3,
-      name: 'Synergy Corp',
-      email: 'support@synergy.org',
-      courses: 15,
-      teachers: 5,
-      students: 85,
-      subscription: 'Expired',
-    },
-    {
-      id: 4,
-      name: 'Apex Enterprises',
-      email: 'info@apexent.com',
-      courses: 60,
-      teachers: 35,
-      students: 310,
-      subscription: 'Paid',
-    },
-    {
-      id: 5,
-      name: 'Global Tech',
-      email: 'contact@globaltech.io',
-      courses: 18,
-      teachers: 8,
-      students: 95,
-      subscription: 'Free',
-    },
-    {
-      id: 6,
-      name: 'NextGen Academy',
-      email: 'admin@nextgen.edu',
-      courses: 28,
-      teachers: 12,
-      students: 175,
-      subscription: 'Trial',
-    },
-    {
-      id: 7,
-      name: 'TechHub Learning',
-      email: 'support@techhub.com',
-      courses: 35,
-      teachers: 20,
-      students: 200,
-      subscription: 'Paid',
-    },
-    {
-      id: 8,
-      name: 'EduSphere',
-      email: 'contact@edusphere.com',
-      courses: 12,
-      teachers: 6,
-      students: 65,
-      subscription: 'Expired',
-    },
-  ];
+  tenants: any[] = [];
 
   currentPage: number = 1;
   pageSize: number = 5;
   totalItems: number = 0;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private tenantService: TenantService) {}
 
   ngOnInit() {
+    this.tenants = this.tenantService.getTenants();
     this.totalItems = this.tenants.length;
   }
 
@@ -171,7 +100,9 @@ export class SuperAdminTenantsComponent {
 
   onEdit(tenant: any) {
     console.log('Edit tenant:', tenant);
-    this.router.navigate(['/super-admin/settings']);
+    // this.router.navigate(['/super-admin/tenant-settings']);
+    this.tenantService.setSelectedTenant(tenant);
+    this.router.navigate(['/super-admin/tenant-settings', tenant.id]);
   }
 
   onDelete(tenant: any) {
@@ -207,5 +138,6 @@ interface Tenant {
   courses: number;
   teachers: number;
   students: number;
-  subscription: string;
+  subscription: 'Paid' | 'Free' | 'Trial' | 'Expired';
+  isActive: boolean;
 }
