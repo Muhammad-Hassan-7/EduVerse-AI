@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
-import { Router } from '@angular/router';
+import { Router ,RouterModule} from '@angular/router';
 import { PaginationComponent } from '../pagination/pagination.component';
+
+
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, PaginationComponent],
+  imports: [CommonModule, ButtonComponent, PaginationComponent,RouterModule],
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.css'
 })
@@ -74,13 +76,18 @@ onActionClick(row: any) {
   onDelete(row: any) {
     this.delete.emit(row);
   }
+  getProgressColor(progress: number): string {
+  if (progress >= 80) return 'bg-green-500';
+  if (progress >= 50) return 'bg-yellow-400';
+  return 'bg-red-500';
+}
+
 }
 
 export interface TableColumn {
   key: string;                        // property name in row object
   label: string;                      // column header label
-  type?: 'text' | 'badge' | 'avatar'|'date' | 'action'; // special rendering
-  badgeColors?: {                     // used only when type = 'badge'
-    [key: string]: string
-  };
+  type?: 'text' | 'badge' | 'avatar' | 'date' | 'action' | 'progress' | 'link';
+  badgeColors?: { [key: string]: string }; // used only when type = 'badge'
+  link?: string;                       // used when type = 'link'
 }

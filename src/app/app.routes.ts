@@ -27,6 +27,7 @@ import { LeaderboardComponent } from './features/student/pages/leaderboard/leade
 import { StudentSettingsComponent } from './features/student/pages/student-settings/student-settings.component';
 import { QuizzesComponent } from './features/teacher/pages/quizzes/quizzes.component';
 import { AiAssistantComponent } from './features/student/pages/ai-assistant/ai-assistant.component';
+import { StudentDetailsComponent } from './features/teacher/pages/student-details/student-details.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -50,6 +51,7 @@ export const routes: Routes = [
       { path: 'teachers', component: TeachersComponent },
       { path: 'students', component: StudentsComponent },
       { path: 'settings', component: SettingsComponent },
+
     ],
   },
 
@@ -63,6 +65,7 @@ export const routes: Routes = [
       { path: 'quizzes', component: QuizzesComponent },
       { path: 'assignments', component: GenerateAssignmentsComponent },
       { path: 'trackstudent', component: TrackStudentComponent },
+      { path: 'student-details/:id', component: StudentDetailsComponent }, // ✅ new route
       { path: 'settings', component: TeacherSettingsComponent },
     ],
   },
