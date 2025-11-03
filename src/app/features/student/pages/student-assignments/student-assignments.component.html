@@ -6,22 +6,18 @@
 
   <main class="p-6 max-w-7xl mx-auto">
     <div class="bg-white p-5 rounded-2xl">
-      <div class="mb-3 flex justify-center">
-        <div
-          class="flex space-x-2 bg-white rounded-xl shadow-sm p-1 border border-gray-200"
-        >
-          <button
-            *ngFor="let tab of tabs"
-            (click)="onTabChange(tab.id)"
-            [ngClass]="{
-              'bg-slate-500 text-white shadow-sm': activeTab === tab.id,
-              'bg-white text-gray-600 hover:bg-slate-100': activeTab !== tab.id
-            }"
-            class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-          >
-            {{ tab.label }}
-          </button>
-        </div>
+      <!-- <app-filters
+        [dropdowns]="filterDropdowns"
+        [searchPlaceholder]="'Search assignments...'"
+        (filtersChange)="onFiltersChange($event)"
+      ></app-filters> -->
+
+      <div class="mb-6">
+        <app-filters
+          [dropdowns]="filterDropdowns"
+          [searchPlaceholder]="'Search assignments...'"
+          (filtersChange)="onFiltersChange($event)"
+        ></app-filters>
       </div>
 
       <!-- Assignment Grid (3 cards per row) -->

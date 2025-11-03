@@ -32,6 +32,7 @@ import { SuperAdminLayoutComponent } from './layouts/super-admin-layout/super-ad
 import { SuperAdminTenantsComponent } from './features/super-admin/pages/super-admin-tenants/super-admin-tenants.component';
 import { SuperAdminSettingsComponent } from './features/super-admin/pages/super-admin-settings/super-admin-settings.component';
 import { StudentDetailsComponent } from './features/teacher/pages/student-details/student-details.component';
+import { SuperAdminTenantSettingsComponent } from './features/super-admin/pages/super-admin-tenant-settings/super-admin-tenant-settings.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -97,6 +98,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: SuperadminDashboardComponent },
       { path: 'tenants', component: SuperAdminTenantsComponent },
       { path: 'settings', component: SuperAdminSettingsComponent },
+      { path: 'tenant-settings/:id', component: SuperAdminTenantSettingsComponent },
     ],
   },
 
