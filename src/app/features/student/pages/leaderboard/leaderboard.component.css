@@ -25,3 +25,25 @@
 .toggle-checkbox:checked::before {
   transform: translateX(18px);
 }
+:host {
+  display: block;
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
+}
+
+body,
+html {
+  overflow-x: hidden;
+}
+
+.min-h-screen {
+  overflow-x: hidden;
+}
+
+.grid {
+  max-width: 100%;
+}
+
+canvas {
+  max-width: 100% !important;
+}
