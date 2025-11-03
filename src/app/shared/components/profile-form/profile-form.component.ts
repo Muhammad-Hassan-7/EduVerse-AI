@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-profile-form',
